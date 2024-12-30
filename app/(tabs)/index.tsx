@@ -1,68 +1,129 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { useState } from 'react';
+import {StyleSheet, SafeAreaView, View, Text, TextInput, Button, ToastAndroid } from 'react-native';
 
 export default function HomeScreen() {
+
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [age, setAge] = useState(0);
+  const [adresse, setAdresse] = useState('');
+  const [email, setEmail] = useState('');
+  const [cemail, setCEmail] = useState('');
+
+  const handleafficher = () => {
+    //ToastAndroid.show(nom, ToastAndroid.LONG);
+
+    if(isFinite(age)){
+      if (email === cemail) {
+        ToastAndroid.show("All information typed: "+nom+"; "+prenom+"; "+age+"; "+adresse+"; "+email, ToastAndroid.LONG);
+      }
+      else
+        ToastAndroid.show("Emails are not identical !", ToastAndroid.LONG);
+    }
+    else
+      ToastAndroid.show("Age is not a number !", ToastAndroid.LONG);
+  }
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+   <SafeAreaView style={styles.safeArea}>
+
+      <View>
+        <Text style={styles.title}>
+          Register
+        </Text>
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Nom: 
+        </Text>
+        <TextInput 
+          onChangeText={(e) => setNom(e)} 
+          placeholder='Nom...' 
+          style={styles.textInput} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Prénom: 
+        </Text>
+        <TextInput 
+          onChangeText={(e) => setPrenom(e)} 
+          placeholder='Prénom...' 
+          style={styles.textInput} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Age: 
+        </Text>
+        <TextInput 
+        onChangeText={(e) => setAge(Number(e))} 
+        placeholder='Age...' 
+        style={styles.textInput} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Adresse: 
+        </Text>
+        <TextInput 
+          onChangeText={(e) => setAdresse(e)} 
+          placeholder='Adresse...' 
+          style={styles.textInput} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Email: 
+        </Text>
+        <TextInput 
+          onChangeText={(e) => setEmail(e)} 
+          placeholder='Adresse email...' 
+          style={styles.textInput} />
+      </View>
+
+      <View style={styles.titleContainer}>
+        <Text>
+          Confirmer Email: 
+        </Text>
+        <TextInput 
+          onChangeText={(e) => setCEmail(e)} 
+          placeholder='Confirmer email...' 
+          style={styles.textInput} />
+      </View>
+
+      <View style={{marginTop: 20, width: '90%'}}>
+      <Button title="Afficher" onPress={handleafficher} />
+      </View>
+      
+   </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  safeArea: {
+    flexDirection: 'column',
+    marginVertical: 60,
+    padding: 20
+  },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    paddingLeft: 10,
+    fontSize: 35,
+    marginTop: 20
+  },
+  textInput: {
+    marginTop: 5,
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'gray'
   },
   stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+     
   },
   reactLogo: {
     height: 178,
@@ -72,3 +133,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 });
+function useForm(p0: { defaultValues: { name: string; email: string; }; }): [any, any, any] {
+  throw new Error('Function not implemented.');
+}
+
